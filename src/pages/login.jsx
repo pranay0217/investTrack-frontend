@@ -46,7 +46,7 @@ export function Login() {
   };
 
   const handleGoogleLogin = () => {
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000' || 'https://investtrack-y0gf.onrender.com';
+    const apiUrl = import.meta.env.VITE_API_URL || 'https://investtrack-y0gf.onrender.com'|| 'http://localhost:3000';
     console.log("Redirecting to Google with API URL:", apiUrl);
     if (!apiUrl) {
       toast.error("API URL not configured");
