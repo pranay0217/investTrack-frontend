@@ -145,7 +145,7 @@ export function SignUp() {
                 <Button
                   variant="outline-secondary"
                   className="w-100 d-flex align-items-center justify-content-center gap-2"
-                  onClick={() => (window.location.href = 'http://localhost:3000/auth/google')}
+                  onClick={() => (window.location.href = 'https://investtrack-y0gf.onrender.com/auth/google')}
                 >
                   <img
                     src="https://developers.google.com/identity/images/g-logo.png"
