@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { Toaster, toast } from 'react-hot-toast';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
 
@@ -133,9 +134,9 @@ export function SignUp() {
                 {/* -------------- Existing account -------------- */}
                 <p className="text-center mt-3 mb-2">
                   Already have an account?&nbsp;
-                  <a href="/login" className="text-decoration-none">
-                    Log in
-                  </a>
+                  <Link to="/login" className="text-decoration-none">
+                                  Log in
+                  </Link>
                 </p>
 
                 {/* ------------------ Divider ------------------ */}
