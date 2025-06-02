@@ -74,7 +74,7 @@ export function Learn() {
               <Col xs={12} md={6}>
                 <div
                   style={{
-                    backgroundImage: `url("https://ddnews.gov.in/wp-content/uploads/2024/12/GettyImages-1848933453.jpg")`,
+                    backgroundImage: `url("https://www.shareindia.com/wp-content/uploads/2023/01/Futures-in-Stock-Market.webp")`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     minHeight: '300px',
