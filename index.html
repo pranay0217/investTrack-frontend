@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>InvestTrack</title>
 
-    <!-- Favicon path -->
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <!-- Favicon path (make sure logo.png is inside public/ folder) -->
+    <link rel="icon" type="image/png" href="/logo.png" />
 
-    <!-- ✅ Add base tag to support client-side routing in production -->
+    <!-- ✅ Base for client-side routing -->
     <base href="/" />
 
     <!-- Bootstrap CSS -->
@@ -18,18 +18,51 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
+    <style>
+      /* Optional: Loading screen logo styling */
+      #logo-loader {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+
+      #logo-loader img {
+        max-height: 150px;
+        animation: fadeIn 1s ease-in-out;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <!-- Optional: Logo splash while React is mounting -->
+    <div id="logo-loader">
+      <img src="/logo.png" alt="InvestTrack Logo" />
+    </div>
 
-    <!-- Bootstrap Bundle JS (optional for dropdowns, modals, etc.) -->
+    <!-- React mounts here -->
+    <div id="root" style="display: none;"></div>
+
+    <!-- Bootstrap JS Bundle -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-HoA8zmdZKJdqGVRLRiIYY0kLk4L0wRE5pSl0K0Q6yNsPi7VqPfPy35i1KoNzI0UF"
       crossorigin="anonymous"
     ></script>
 
-    <!-- Your React entrypoint -->
-    <script type="module" src="/src/main.jsx"></script>
+    <!-- React entrypoint -->
+    <script type="module">
+      import "/src/main.jsx";
+
+      // Hide loader and show root once React mounts (basic)
+      window.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("logo-loader").style.display = "none";
+        document.getElementById("root").style.display = "block";
+      });
+    </script>
   </body>
 </html>
