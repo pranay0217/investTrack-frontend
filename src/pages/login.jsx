@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
+import { Link } from 'react-router-dom';
 
 export function Login() {
   const navigate = useNavigate();
@@ -88,9 +89,9 @@ export function Login() {
 
         <p style={styles.loginText}>
           Don't have an account?{" "}
-          <a href="/signup" style={styles.link}>
+          <Link to="/signup" className="text-decoration-none">
             Sign up
-          </a>
+          </Link>
         </p>
 
         <div style={styles.divider}>OR</div>
