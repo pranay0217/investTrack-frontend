@@ -26,16 +26,27 @@ function NavScrollExample() {
       }}
     >
       <Container fluid className="d-flex justify-content-between align-items-center px-3 px-lg-5">
-        <Navbar.Brand
-          href="/"
-          style={{
-            fontWeight: 'bold',
-            fontSize: '24px',
-            fontFamily: 'Roboto, sans-serif',
-          }}
+        {/* Logo + Brand container */}
+        <div
+          onClick={() => navigate('/')}
+          style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
         >
-          Invest Track
-        </Navbar.Brand>
+          <img
+            src="/logo.png"
+            alt="Logo"
+            style={{ height: '40px', marginRight: '10px' }}
+          />
+          <Navbar.Brand
+            style={{
+              fontWeight: 'bold',
+              fontSize: '24px',
+              fontFamily: 'Roboto, sans-serif',
+              margin: 0,
+            }}
+          >
+            Invest Track
+          </Navbar.Brand>
+        </div>
 
         <Navbar.Toggle aria-controls="navbarScroll" />
 
@@ -46,7 +57,7 @@ function NavScrollExample() {
             style={{
               gap: '1rem',
               flexWrap: 'wrap',
-              marginLeft: 0, // Removed fixed margin to avoid layout break on mobile
+              marginLeft: 0,
             }}
           >
             <Nav.Link onClick={() => navigate('/howinvesttrackworks')}>
@@ -56,12 +67,10 @@ function NavScrollExample() {
             <Nav.Link onClick={() => navigate('/ContactUs')}>Contact Us</Nav.Link>
           </Nav>
 
-          {/* Responsive container for theme selector + buttons */}
           <div
             className="d-flex flex-column flex-lg-row align-items-stretch align-items-lg-center gap-2 gap-lg-3 ms-lg-3"
             style={{ minWidth: '140px' }}
           >
-            {/* Theme Switcher */}
             <Form.Select
               value={themeName}
               onChange={(e) => setThemeName(e.target.value)}
