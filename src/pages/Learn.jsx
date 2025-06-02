@@ -74,7 +74,7 @@ export function Learn() {
               <Col xs={12} md={6}>
                 <div
                   style={{
-                    backgroundImage: `url("https://aisite.10web.io/69/wp-content/uploads/sites/171/2025/05/tenweb_media_sfntodyua.webp")`,
+                    backgroundImage: `url("https://ddnews.gov.in/wp-content/uploads/2024/12/GettyImages-1848933453.jpg")`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     minHeight: '300px',
