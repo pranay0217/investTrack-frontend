@@ -25,11 +25,12 @@ export const Home = () => {
           {/* Image Section */}
           <div className="col-md-6 mb-4 mb-md-0" style={{marginTop: '100px'}}>
             <img
-              src="https://aisite.10web.io/69/wp-content/uploads/sites/171/2025/05/tenweb_media_rkzkpzev6.webp"
-              alt="Home Illustration"
-              className="img-fluid w-100 rounded shadow"
-              style={{ maxHeight: '500px', objectFit: 'cover' }}
-            />
+                src="https://www.moneyseth.com/media/blog_headers/top_website_for_share_market.webp"
+                alt="Home Illustration"
+                className="img-fluid w-100 rounded shadow"
+                style={{ maxHeight: '500px', objectFit: 'cover' }}
+              />
+
           </div>
 
           {/* Text Section */}
