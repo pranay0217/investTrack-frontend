@@ -12,24 +12,24 @@ import logout from './logout';
 const getNavbarStyle = (theme) => {
   switch (theme) {
     case 'dark':
-      return { backgroundColor: '#121212', color: '#ffffff' };  // Dark theme
+      return { backgroundColor: '#121212', color: '#ffffff' };
     case 'ocean':
-      return { backgroundColor: '#0e7490', color: '#ffffff' };  // Ocean theme
+      return { backgroundColor: '#0e7490', color: '#ffffff' };
     case 'sunset':
-      return { backgroundColor: '#ff7043', color: '#000000' };  // Sunset theme
-    default:  // Light theme
-      return { backgroundColor: '#f8f9fa', color: '#000000' };  // Light theme
+      return { backgroundColor: '#ff7043', color: '#000000' };
+    default:
+      return { backgroundColor: '#f8f9fa', color: '#000000' };
   }
 };
 
 function SidebarWithNavbar() {
   const [show, setShow] = useState(false);
-  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');  // Initialize theme from localStorage
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
   const navigate = useNavigate();
 
   const toggleSidebar = () => setShow(!show);
 
-  const username = localStorage.getItem('username')
+  const username = localStorage.getItem('username');
   const handleLogout = () => {
     logout();
   };
@@ -40,13 +40,12 @@ function SidebarWithNavbar() {
 
   const handleThemeChange = (selectedTheme) => {
     setTheme(selectedTheme);
-    localStorage.setItem('theme', selectedTheme);  // Save the selected theme in localStorage
+    localStorage.setItem('theme', selectedTheme);
   };
 
   useEffect(() => {
-    // Apply the theme to the body element (this applies to the whole page except the navbar)
-    document.body.className = '';  // Clear previous theme class
-    document.body.classList.add(`theme-${theme}`);  // Add the selected theme class
+    document.body.className = '';
+    document.body.classList.add(`theme-${theme}`);
   }, [theme]);
 
   return (
@@ -54,7 +53,7 @@ function SidebarWithNavbar() {
       <Navbar
         expand="lg"
         style={{
-          ...getNavbarStyle(theme),  // Apply the navbar style based on the selected theme
+          ...getNavbarStyle(theme),
           position: 'fixed',
           top: 0,
           width: '100%',
@@ -63,10 +62,19 @@ function SidebarWithNavbar() {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          marginTop : '30px'
+          marginTop: '30px',
         }}
       >
-        <Container fluid style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 0 }}>
+        <Container
+          fluid
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: 0,
+          }}
+        >
+          {/* Profile Circle */}
           <div
             onClick={handleProfileClick}
             style={{
@@ -84,7 +92,13 @@ function SidebarWithNavbar() {
             }}
             title="Go to Profile"
           >
-            <span style={{ fontSize: '18px', fontWeight: 'bold', color: '#333' }}>
+            <span
+              style={{
+                fontSize: '18px',
+                fontWeight: 'bold',
+                color: '#333',
+              }}
+            >
               {username ? username.charAt(0).toUpperCase() : ''}
             </span>
           </div>
@@ -101,21 +115,43 @@ function SidebarWithNavbar() {
             {username || 'Guest'}
           </Navbar.Text>
 
-          <h1
+          {/* Logo + Title */}
+          <div
+            onClick={() => navigate('/')}
             style={{
-              color: theme === 'dark' ? 'white' : 'black',
-              fontWeight: 'bold',
-              fontFamily: 'Roboto, sans-serif',
-              fontSize: '1.25rem',
-              margin: 0,
+              display: 'flex',
+              alignItems: 'center',
+              cursor: 'pointer',
+              flexShrink: 1,
               userSelect: 'none',
             }}
-            className="mx-auto text-truncate"
-            title="INVEST-TRACK"
+            title="Go to Home"
+            className="mx-auto"
           >
-            INVEST-TRACK
-          </h1>
+            <img
+              src="/logo.png"
+              alt="Logo"
+              style={{
+                height: '35px',
+                marginRight: '10px',
+              }}
+            />
+            <h1
+              style={{
+                color: theme === 'dark' ? 'white' : 'black',
+                fontWeight: 'bold',
+                fontFamily: 'Roboto, sans-serif',
+                fontSize: '1.25rem',
+                margin: 0,
+                whiteSpace: 'nowrap',
+              }}
+              className="text-truncate"
+            >
+              INVEST-TRACK
+            </h1>
+          </div>
 
+          {/* Theme Dropdown & Toggle Button */}
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <Dropdown>
               <Dropdown.Toggle variant="secondary" size="sm">
@@ -129,7 +165,7 @@ function SidebarWithNavbar() {
               </Dropdown.Menu>
             </Dropdown>
             <Button
-              variant={theme === 'dark' ? "outline-light" : "outline-dark"}
+              variant={theme === 'dark' ? 'outline-light' : 'outline-dark'}
               onClick={toggleSidebar}
               style={{
                 border: '1px solid #ccc',
@@ -148,6 +184,7 @@ function SidebarWithNavbar() {
         </Container>
       </Navbar>
 
+      {/* Offcanvas Sidebar */}
       <Offcanvas
         show={show}
         onHide={toggleSidebar}
@@ -155,56 +192,28 @@ function SidebarWithNavbar() {
         style={{ width: '75vw', maxWidth: '300px' }}
       >
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title style={{ fontWeight: 'bold', color: 'black', marginTop : '70px' }}>Features</Offcanvas.Title>
+          <Offcanvas.Title style={{ fontWeight: 'bold', color: 'black', marginTop: '70px' }}>
+            Features
+          </Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
           <Nav className="flex-column" style={{ fontSize: '1.1rem' }}>
-            <Nav.Link
-              as={NavLink}
-              to="/Dashboard"
-              onClick={toggleSidebar}
-              style={{ color: '#0d6efd', padding: '0.5rem 0' }}
-            >
+            <Nav.Link as={NavLink} to="/Dashboard" onClick={toggleSidebar} style={{ color: '#0d6efd', padding: '0.5rem 0' }}>
               Dashboard
             </Nav.Link>
-            <Nav.Link
-              as={NavLink}
-              to="/addnewbroker"
-              onClick={toggleSidebar}
-              style={{ color: '#0d6efd', padding: '0.5rem 0' }}
-            >
+            <Nav.Link as={NavLink} to="/addnewbroker" onClick={toggleSidebar} style={{ color: '#0d6efd', padding: '0.5rem 0' }}>
               Add New Broker
             </Nav.Link>
-            <Nav.Link
-              as={NavLink}
-              to="/AI-assistant"
-              onClick={toggleSidebar}
-              style={{ color: '#0d6efd', padding: '0.5rem 0' }}
-            >
+            <Nav.Link as={NavLink} to="/AI-assistant" onClick={toggleSidebar} style={{ color: '#0d6efd', padding: '0.5rem 0' }}>
               AI Assistance
             </Nav.Link>
-            <Nav.Link
-              as={NavLink}
-              to="/Contact"
-              onClick={toggleSidebar}
-              style={{ color: '#0d6efd', padding: '0.5rem 0' }}
-            >
+            <Nav.Link as={NavLink} to="/Contact" onClick={toggleSidebar} style={{ color: '#0d6efd', padding: '0.5rem 0' }}>
               Contact
             </Nav.Link>
-            <Nav.Link
-              as={NavLink}
-              to="/news"
-              onClick={toggleSidebar}
-              style={{ color: '#0d6efd', padding: '0.5rem 0' }}
-            >
+            <Nav.Link as={NavLink} to="/news" onClick={toggleSidebar} style={{ color: '#0d6efd', padding: '0.5rem 0' }}>
               News
             </Nav.Link>
-            <Nav.Link
-              as={NavLink}
-              to="/chart"
-              onClick={toggleSidebar}
-              style={{ color: '#0d6efd', padding: '0.5rem 0' }}
-            >
+            <Nav.Link as={NavLink} to="/chart" onClick={toggleSidebar} style={{ color: '#0d6efd', padding: '0.5rem 0' }}>
               View Chart
             </Nav.Link>
             <Nav.Link
