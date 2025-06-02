@@ -43,7 +43,11 @@ function NavScrollExample() {
           <Nav
             className="me-auto my-2 my-lg-0"
             navbarScroll
-            style={{ gap: '1rem', flexWrap: 'wrap', marginLeft: '300px' }}
+            style={{
+              gap: '1rem',
+              flexWrap: 'wrap',
+              marginLeft: 0, // Removed fixed margin to avoid layout break on mobile
+            }}
           >
             <Nav.Link onClick={() => navigate('/howinvesttrackworks')}>
               How InvestTrack Works
@@ -52,13 +56,17 @@ function NavScrollExample() {
             <Nav.Link onClick={() => navigate('/ContactUs')}>Contact Us</Nav.Link>
           </Nav>
 
-          <div className="d-flex flex-column flex-lg-row align-items-center gap-2 gap-lg-3 ms-lg-3">
+          {/* Responsive container for theme selector + buttons */}
+          <div
+            className="d-flex flex-column flex-lg-row align-items-stretch align-items-lg-center gap-2 gap-lg-3 ms-lg-3"
+            style={{ minWidth: '140px' }}
+          >
             {/* Theme Switcher */}
             <Form.Select
-              style={{ minWidth: '140px' }}
               value={themeName}
               onChange={(e) => setThemeName(e.target.value)}
               aria-label="Select theme"
+              className="flex-grow-1"
             >
               <option value="light">Light</option>
               <option value="dark">Dark</option>
