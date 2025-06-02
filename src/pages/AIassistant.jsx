@@ -23,7 +23,7 @@ export const AIassistant = () => {
         console.error("Client code not found in localStorage");
         return;
       }
-      const API_BASE_URL = 'http://localhost:8000' || import.meta.env.VITE_API_URL;
+      const API_BASE_URL = 'https://investtrack-python.onrender.com' || import.meta.env.VITE_API_URL;
       const res = await axios.get(`${API_BASE_URL}/analyze`, {
         params: { username }
       });
