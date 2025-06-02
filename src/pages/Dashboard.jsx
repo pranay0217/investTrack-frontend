@@ -24,7 +24,10 @@ export function Dashboard() {
       }
 
       // Zerodha holdings
-      const zerodhaRes = await axios.get(`${import.meta.env.VITE_API_URL}/broker/getZerodhaHoldings?username=${encodeURIComponent(username)}`);
+      const zerodhaRes = await axios.get(
+        `${import.meta.env.VITE_API_URL}/broker/getZerodhaHoldings?username=${encodeURIComponent(username)}`
+      );
+
       if (zerodhaRes.data?.success && Array.isArray(zerodhaRes.data.data)) {
         const zerodhaData = zerodhaRes.data.data.find(b => b.broker?.toLowerCase() === 'zerodha');
         setZerodhaHoldings(zerodhaData?.holdings || []);
@@ -32,18 +35,25 @@ export function Dashboard() {
         setZerodhaHoldings([]);
       }
 
-      // Angel One holdings
-      const angelRes = await axios.get(`${import.meta.env.VITE_API_URL}/broker/angelonefetchPortfolio?username=${encodeURIComponent(username)}&clientId=${encodeURIComponent(clientId)}`);
-      console.log('Angel One Response:', angelRes.data);
+      // Angel One holdings: only fetch if clientId exists and is not null/empty
+      if (clientId) {
+        const angelRes = await axios.get(
+          `${import.meta.env.VITE_API_URL}/broker/angelonefetchPortfolio?username=${encodeURIComponent(username)}&clientId=${encodeURIComponent(clientId)}`
+        );
 
-      if (angelRes.data?.success) {
-        const angelData = angelRes.data.data?.[0];
-        const extractedHoldings = angelData?.holdings?.holdings || [];
-        setAngelHoldings(extractedHoldings);
+        console.log('Angel One Response:', angelRes.data);
+
+        if (angelRes.data?.success) {
+          const angelData = angelRes.data.data?.[0];
+          const extractedHoldings = angelData?.holdings?.holdings || [];
+          setAngelHoldings(extractedHoldings);
+        } else {
+          setAngelHoldings([]);
+        }
       } else {
+        console.warn("Angel One clientId not found; skipping Angel One holdings fetch.");
         setAngelHoldings([]);
       }
-
     } catch (err) {
       console.error('Error fetching holdings:', err);
       setAngelHoldings([]);
@@ -60,48 +70,47 @@ export function Dashboard() {
   const handleBuy = symbol => alert(`Buy action triggered for ${symbol}`);
   const handleSell = symbol => alert(`Sell action triggered for ${symbol}`);
 
- const renderHoldingsCard = (holdings, type = 'zerodha') => (
-  <div className="card shadow-sm mb-4 border-0 rounded-4 bg-light-subtle">
-    <div className="card-body">
-      {holdings.map((holding, idx) => {
-        const symbol = holding.tradingsymbol || holding.symbol || 'N/A';
-        const quantity = holding.quantity || holding.qty || 'N/A';
-        const avgPrice = holding.average_price || holding.averageprice || holding.avgprice || 'N/A';
-        const pnl = holding.profitandloss || holding.pnl || 'N/A';
-        const ltp = holding.ltp || holding.last_price || 'N/A';
-        const exchange = holding.exchange || 'NSE';
+  const renderHoldingsCard = (holdings, type = 'zerodha') => (
+    <div className="card shadow-sm mb-4 border-0 rounded-4 bg-light-subtle">
+      <div className="card-body">
+        {holdings.map((holding, idx) => {
+          const symbol = holding.tradingsymbol || holding.symbol || 'N/A';
+          const quantity = holding.quantity || holding.qty || 'N/A';
+          const avgPrice = holding.average_price || holding.averageprice || holding.avgprice || 'N/A';
+          const pnl = holding.profitandloss || holding.pnl || 'N/A';
+          const ltp = holding.ltp || holding.last_price || 'N/A';
+          const exchange = holding.exchange || 'NSE';
 
-        const pnlValue = parseFloat(pnl);
-        const isProfit = !isNaN(pnlValue) && pnlValue >= 0;
-        const pnlClass = isProfit ? 'text-success' : 'text-danger';
+          const pnlValue = parseFloat(pnl);
+          const isProfit = !isNaN(pnlValue) && pnlValue >= 0;
+          const pnlClass = isProfit ? 'text-success' : 'text-danger';
 
-        return (
-          <div className="row border-bottom py-3 align-items-center hover-bg-light" key={idx}>
-            <div className="col-12 col-sm-6 col-md-3 mb-2">
-              <h6 className="mb-1 text-truncate fw-semibold" title={symbol}>{symbol}</h6>
-              <small className="text-muted"><strong>Qty:</strong> {quantity}</small>
-            </div>
-            <div className="col-6 col-sm-6 col-md-3 mb-2">
-              <small><strong>Avg:</strong> ₹{avgPrice}</small><br />
-              <small><strong>LTP:</strong> ₹{ltp}</small>
-            </div>
-            <div className="col-6 col-sm-6 col-md-3 mb-2">
-              <small><strong>P&L:</strong> <span className={pnlClass}>₹{pnl}</span></small><br />
-              <small><strong>Exchange:</strong> {exchange}</small>
-            </div>
-            <div className="col-12 col-md-3 text-md-end mt-2 mt-md-0">
-              <div className="d-flex flex-wrap justify-content-md-end gap-2">
-                <button className="btn btn-outline-success btn-sm" onClick={() => handleBuy(symbol)}>Buy</button>
-                <button className="btn btn-outline-danger btn-sm" onClick={() => handleSell(symbol)}>Sell</button>
+          return (
+            <div className="row border-bottom py-3 align-items-center hover-bg-light" key={idx}>
+              <div className="col-12 col-sm-6 col-md-3 mb-2">
+                <h6 className="mb-1 text-truncate fw-semibold" title={symbol}>{symbol}</h6>
+                <small className="text-muted"><strong>Qty:</strong> {quantity}</small>
+              </div>
+              <div className="col-6 col-sm-6 col-md-3 mb-2">
+                <small><strong>Avg:</strong> ₹{avgPrice}</small><br />
+                <small><strong>LTP:</strong> ₹{ltp}</small>
+              </div>
+              <div className="col-6 col-sm-6 col-md-3 mb-2">
+                <small><strong>P&L:</strong> <span className={pnlClass}>₹{pnl}</span></small><br />
+                <small><strong>Exchange:</strong> {exchange}</small>
+              </div>
+              <div className="col-12 col-md-3 text-md-end mt-2 mt-md-0">
+                <div className="d-flex flex-wrap justify-content-md-end gap-2">
+                  <button className="btn btn-outline-success btn-sm" onClick={() => handleBuy(symbol)}>Buy</button>
+                  <button className="btn btn-outline-danger btn-sm" onClick={() => handleSell(symbol)}>Sell</button>
+                </div>
               </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
-  </div>
-);
-
+  );
 
   return (
     <>
