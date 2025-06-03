@@ -31,9 +31,8 @@ const brokers = [
   },
 ];
 
-const username = localStorage.getItem("username") || "";
-
 export const Addnewbroker = () => {
+  const [username, setUsername] = useState('');
   const [selectedBroker, setSelectedBroker] = useState(null);
   const [formData, setFormData] = useState({
     clientcode: '',
@@ -45,6 +44,8 @@ export const Addnewbroker = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    setUsername(localStorage.getItem('username') || '');
+
     const storedConnections = JSON.parse(localStorage.getItem("connected_brokers")) || {};
     setConnectedBrokers(storedConnections);
   }, []);
@@ -84,8 +85,10 @@ export const Addnewbroker = () => {
       const payload = {
         ...formData,
         state: 'web',
-        username: username
+        username: username || localStorage.getItem('username') || '',
       };
+
+      console.log("Submitting Angel One login payload:", payload);
 
       const res = await axios.post(`${import.meta.env.VITE_API_URL}/broker/angelonelogin`, payload);
 
